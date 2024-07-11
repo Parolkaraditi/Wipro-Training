@@ -31,13 +31,11 @@ class Library implements LibraryOperations {
         books = new ArrayList<>();
     }
 
-    @Override
     public void addBook(Book book) {
         books.add(book);
         System.out.println("Book added: " + book.title);
     }
 
-    @Override
     public void issueBook(String title, String issuedTo) {
         for (Book book : books) {
             if (book.title.equals(title) && !book.isIssued) {
@@ -50,7 +48,6 @@ class Library implements LibraryOperations {
         System.out.println("Book not available: " + title);
     }
 
-    @Override
     public void returnBook(String title) {
         for (Book book : books) {
             if (book.title.equals(title) && book.isIssued) {
@@ -63,7 +60,6 @@ class Library implements LibraryOperations {
         System.out.println("Book not found: " + title);
     }
 
-    @Override
     public void displayBooks() {
         for (Book book : books) {
             String status = book.isIssued ? "Issued to " + book.issuedTo : "Available";
