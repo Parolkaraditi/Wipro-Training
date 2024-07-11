@@ -25,22 +25,29 @@ class Book {
 
 // Library Class
 class Library implements LibraryOperations {
-    private List<Book> books;
+    private Book[] books;
+    private int count;
 
-    public Library() {
-        books = new ArrayList<>();
+    public Library(int capacity) {
+        books = new Book[capacity];
+        count = 0;
     }
 
     public void addBook(Book book) {
-        books.add(book);
-        System.out.println("Book added: " + book.title);
+        if (count < books.length) {
+            books[count] = book;
+            count++;
+            System.out.println("Book added: " + book.title);
+        } else {
+            System.out.println("Library is full Cannot add more books.");
+        }
     }
 
     public void issueBook(String title, String issuedTo) {
-        for (Book book : books) {
-            if (book.title.equals(title) && !book.isIssued) {
-                book.isIssued = true;
-                book.issuedTo = issuedTo;
+        for (int i = 0; i < count; i++) {
+            if (books[i].title.equals(title) && !books[i].isIssued) {
+                books[i].isIssued = true;
+                books[i].issuedTo = issuedTo;
                 System.out.println("Book issued: " + title + " to " + issuedTo);
                 return;
             }
@@ -49,10 +56,10 @@ class Library implements LibraryOperations {
     }
 
     public void returnBook(String title) {
-        for (Book book : books) {
-            if (book.title.equals(title) && book.isIssued) {
-                book.isIssued = false;
-                book.issuedTo = null;
+        for (int i = 0; i < count; i++) {
+            if (books[i].title.equals(title) && books[i].isIssued) {
+                books[i].isIssued = false;
+                books[i].issuedTo = null;
                 System.out.println("Book returned: " + title);
                 return;
             }
@@ -61,9 +68,9 @@ class Library implements LibraryOperations {
     }
 
     public void displayBooks() {
-        for (Book book : books) {
-            String status = book.isIssued ? "Issued to " + book.issuedTo : "Available";
-            System.out.println("Title: " + book.title + ", Author: " + book.author + ", Status: " + status);
+        for (int i = 0; i < count; i++) {
+            String status = books[i].isIssued ? "Issued to " + books[i].issuedTo : "Available";
+            System.out.println("Title: " + books[i].title + ", Author: " + books[i].author + ", Status: " + status);
         }
     }
 }
@@ -72,8 +79,7 @@ class Library implements LibraryOperations {
 public class LibraryManagementSystem {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Library library = new Library();
-
+        Library library = new Library(100); 
         while (true) {
             System.out.println("\nLibrary Management System");
             System.out.println("1. Add Book");
